@@ -199,4 +199,13 @@ source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 streamlit run chatbot_frontend.py --server.port 8501 --server.address 0.0.0.0
+
+
+
+cd ~/use-case-2---Building-a-Chatbot-using-Amazon-Bedrock-Langchain-Streamlit
+git pull
+pkill -f streamlit
+nohup streamlit run chatbot_frontend2.py --server.port 8501 --server.address 0.0.0.0 > nohup.out 2>&1 &
+
+
 ```
