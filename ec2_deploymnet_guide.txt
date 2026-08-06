@@ -149,6 +149,8 @@ streamlit run chatbot_frontend.py --server.port 8501 --server.address 0.0.0.0
 # Use nohup to run it in the background
 nohup streamlit run chatbot_frontend.py --server.port 8501 --server.address 0.0.0.0 &
 
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600") && curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4
+
 # Check if it is still running: / 
 ps aux | grep streamlit
 

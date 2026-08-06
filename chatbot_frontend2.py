@@ -20,46 +20,6 @@ st.set_page_config(
 
 
 # -----------------------------
-# Custom styling
-# -----------------------------
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 45%, #f1f5f9 100%);
-        color: #0f172a;
-    }
-    .block-container {
-        padding-top: 1.2rem;
-        padding-bottom: 2rem;
-    }
-    .hero-box {
-        padding: 1.2rem 1.4rem;
-        border-radius: 16px;
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        color: white;
-        border: 1px solid rgba(255,255,255,0.3);
-        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
-    }
-    .sidebar .block-container {
-        background: #ffffff;
-        color: #0f172a;
-    }
-    div[data-testid="stChatMessage"] {
-        padding: 0.4rem 0;
-    }
-    .stTextInput > div > div > input,
-    .stSelectbox > div > div,
-    .stButton > button {
-        border-radius: 10px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-
-# -----------------------------
 # Session state initialization
 # -----------------------------
 if "memory" not in st.session_state:
@@ -73,6 +33,85 @@ if "bot_name" not in st.session_state:
 
 if "response_style" not in st.session_state:
     st.session_state.response_style = "Balanced"
+
+if "theme_mode" not in st.session_state:
+    st.session_state.theme_mode = "Light"
+
+
+# -----------------------------
+# Custom styling
+# -----------------------------
+theme_configs = {
+    "Light": {
+        "background": "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 45%, #f1f5f9 100%)",
+        "text_color": "#0f172a",
+        "card_background": "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+        "sidebar_background": "#ffffff",
+        "sidebar_text": "#0f172a",
+        "border": "rgba(255,255,255,0.3)",
+    },
+    "Dark": {
+        "background": "linear-gradient(135deg, #020617 0%, #111827 45%, #1f2937 100%)",
+        "text_color": "#f8fafc",
+        "card_background": "linear-gradient(135deg, #1d4ed8 0%, #312e81 100%)",
+        "sidebar_background": "#111827",
+        "sidebar_text": "#f8fafc",
+        "border": "rgba(255,255,255,0.2)",
+    },
+    "Blue": {
+        "background": "linear-gradient(135deg, #eff6ff 0%, #dbeafe 45%, #bfdbfe 100%)",
+        "text_color": "#0f172a",
+        "card_background": "linear-gradient(135deg, #0f766e 0%, #2563eb 100%)",
+        "sidebar_background": "#eff6ff",
+        "sidebar_text": "#0f172a",
+        "border": "rgba(37, 99, 235, 0.25)",
+    },
+    "Midnight": {
+        "background": "linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e293b 100%)",
+        "text_color": "#f8fafc",
+        "card_background": "linear-gradient(135deg, #7c3aed 0%, #2563eb 100%)",
+        "sidebar_background": "#0f172a",
+        "sidebar_text": "#f8fafc",
+        "border": "rgba(255,255,255,0.15)",
+    },
+}
+
+selected_theme = theme_configs.get(st.session_state.theme_mode, theme_configs["Light"])
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background: {selected_theme['background']};
+        color: {selected_theme['text_color']};
+    }}
+    .block-container {{
+        padding-top: 1.2rem;
+        padding-bottom: 2rem;
+    }}
+    .hero-box {{
+        padding: 1.2rem 1.4rem;
+        border-radius: 16px;
+        background: {selected_theme['card_background']};
+        color: white;
+        border: 1px solid {selected_theme['border']};
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }}
+    .sidebar .block-container {{
+        background: {selected_theme['sidebar_background']};
+        color: {selected_theme['sidebar_text']};
+    }}
+    div[data-testid="stChatMessage"] {{
+        padding: 0.4rem 0;
+    }}
+    .stTextInput > div > div > input,
+    .stSelectbox > div > div,
+    .stButton > button {{
+        border-radius: 10px;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 # -----------------------------
@@ -89,6 +128,14 @@ with st.sidebar:
         index=bot_options.index(st.session_state.bot_name) if st.session_state.bot_name in bot_options else 0,
     )
     st.session_state.bot_name = selected_name
+
+    theme_options = ["Light", "Dark", "Blue", "Midnight"]
+    theme_mode = st.selectbox(
+        "Theme",
+        theme_options,
+        index=theme_options.index(st.session_state.theme_mode) if st.session_state.theme_mode in theme_options else 0,
+    )
+    st.session_state.theme_mode = theme_mode
 
     style_options = ["Balanced", "Concise", "Detailed", "Creative"]
     response_style = st.selectbox(
