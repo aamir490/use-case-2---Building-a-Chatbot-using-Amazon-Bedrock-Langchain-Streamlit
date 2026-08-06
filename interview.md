@@ -174,7 +174,30 @@ Example:
 
 ---
 
-## 10. Be Ready for Follow-Up Questions
+## 10. Explain Whether This Project Is Serverless
+
+This is an important interview topic. The project is not fully serverless, but it uses a serverless AI service.
+
+### What is serverless?
+Serverless means you do not need to manage the underlying servers yourself. A cloud provider handles infrastructure, scaling, and availability for you. You usually pay only when the service is used.
+
+### In this project
+- AWS Bedrock is serverless in the sense that you use the AI model service without managing your own GPU servers.
+- The Streamlit app itself is not fully serverless because it still needs a running application server.
+- In this project, the UI is hosted locally or on an EC2 instance, so it is more like a lightweight cloud-hosted web app rather than a fully serverless web application.
+
+### A strong interview answer
+> The AI part of this project is serverless because it uses AWS Bedrock, which provides managed foundation model access without requiring me to manage infrastructure. However, the chatbot frontend is not fully serverless because it still runs through a Streamlit app that needs a server environment, such as local hosting or EC2.
+
+### Why this is a good point to mention
+It shows that you understand the difference between:
+- serverless cloud services
+- traditional server-based applications
+- managed services vs self-hosted services
+
+---
+
+## 11. Be Ready for Follow-Up Questions
 
 Here are common follow-up questions and how to answer them.
 
